@@ -1,0 +1,26 @@
+{% extends 'layouts/base.html' %}
+
+{% block conteudo %}
+
+    <form method="post">
+        {% csrf_token %}
+        <h1>Confirmação</h1>
+        <p>Quer mesmo excluir?</p>
+        {% if entrada %}
+            <p><strong>{{ entrada.titulo }} - R$ {{ entrada.valor }} - {{ entrada.periodo }}</strong></p>
+        {% endif %}
+
+        {% if saida %}
+            <p><strong>{{ saida.titulo }} - R$ {{ saida.valor }} - {{ saida.periodo }}</strong></p>
+            <label for="remover_mes_em_diante">Apagar meses seguintes</label>
+            <input
+                type="checkbox"
+                name="remover_mes_em_diante"
+                id="remover_mes_em_diante"
+            >
+        {% endif %}
+
+        <button type="submit" class="btn btn-danger">Excluir</button>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'layouts/base.html' %}
+
+{% block conteudo %}
+    <form method="post">
+        {% csrf_token %}
+        <!-- TITULO -->
+        <label for="titulo">Titulo</label>
+        <input 
+            type="text"
+            class="form-control"
+            id="titulo"
+            placeholder="Titulo"
+            value="{{ saida.titulo }}"
+            name="titulo"
+            required
+        />
+        <!-- VALOR PARCELA -->
+        <label for="valor_parcela">Valor Parcela</label>
+        <input
+            type="number"
+            class="form-control"
+            id="valor_parcela"
+            placeholder="Valor Parcela"
+            value="{{ saida.valor_parcela }}"
+            name="valor_parcela"
+            required
+        />
+        <!-- PERIODO -->
+        <label for="periodo">Período</label>
+        <input
+            type="month"
+            class="form-control"
+            id="periodo"
+            value="{{ saida.periodo }}"
+            name="periodo"
+            required
+        />
+        <!-- QUANTIDADE DE PARCELAS -->
+        <label for="qtd_parcela">Quantidade de Parcelas</label>
+        <input
+            type="number"
+            class="form-control"
+            id="qtd_parcela"
+            placeholder="Quantidade de Parcela"
+            value="{{ saida.qtd_parcela }}"
+            name="qtd_parcela"
+            required
+            {% if saida.qtd_parcela %}
+                disabled
+            {% endif %}
+        />
+
+            
+        <hr>
+        {% if saida %}
+            <label for="alterar_mes_em_diante">Alterar meses seguintes</label>
+            <input type="checkbox" name="alterar_mes_em_diante" id="alterar_mes_em_diante">
+
+            <a class="btn btn-danger" href="{% url 'remover_saida' saida.id %}">
+                Remover
+            </a>
+        {% endif %}
+        <button class="btn btn-primary" type="submit" name="salvar">Salvar</button>
+    </form>    
+{% endblock %}

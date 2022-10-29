@@ -1,0 +1,31 @@
+{% block nav %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'mostra_entrada_saida' %}">
+                Gerenciamento de Dividas - Diniz
+            </a>
+            
+
+            {% if mostra_filtro %}
+            <!-- CONSULTAR -->
+            <form method="post" class="form-inline">
+                {% csrf_token %}
+                
+                <!-- MES E ANO -->
+                <div class="mx-sm-3 mb-2">
+                    <input 
+                        type="month"
+                        class="form-control"
+                        value="{{ periodo }}"
+                        name="periodo"
+                        onchange="this.form.submit()"
+                        required
+                    >
+                </div>
+                <!-- BOTAO -->
+                <!-- <button type="submit" class="btn btn-primary mb-2">Consultar</button> -->
+            </form>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock %}

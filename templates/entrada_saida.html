@@ -1,0 +1,128 @@
+{% extends 'layouts/base.html' %}
+    
+
+{% block conteudo %}
+    <!-- DASHBOARD -->
+    <div class="row">
+        <div class="col">
+            <div class="card text-white bg-success m-2" style="min-width: 10vw;">
+                <div class="card-header">
+                    Entrada
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        R$ {{ dashboard.0.entrada_total }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-danger m-2" style="min-width: 10vw;">
+                <div class="card-header">
+                    Saída
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        R$ {{ dashboard.0.saida_total }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-primary m-2" style="min-width: 10vw;">
+                <div class="card-header">
+                    Saldo
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        R$ {{ dashboard.0.saldo }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div><!-- FIM DASHBOARD -->
+
+
+
+    <!-- TABELA DE ENTRADA -->
+    <h1>
+        Entrada
+        <a class="btn btn-success" href="{% url 'adicionar_entrada' %}">Adicionar</a>
+    </h1>
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entrada in entradas %}
+            <tr>
+                <th>
+                    <a class="text-success" href="{% url 'alterar_entrada' entrada.id %}">
+                        {{ entrada.titulo }}
+                    </a>
+                </th>
+                <th>
+                    R$ {{ entrada.valor }}
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><!-- FIM TABELA DE ENTRADA -->
+
+
+    <!-- TABELA DE SAIDA -->
+    <h1>
+        Saída
+        <a class="btn btn-success" href="{% url 'adicionar_saida' %}">Adicionar</a>
+    </h1>
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saida in saidas %}
+            <tr>
+                <th>
+                    <a class="text-danger" href="{% url 'alterar_saida' saida.id %}">
+                      {{ saida.titulo }} 
+                    </a>
+                </th>
+                <th>
+                    R$ {{ saida.valor_parcela }}/{{ saida.parcela }}-{{ saida.qtd_parcela }}
+                </th>
+                <th>
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- PAGO -->
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="pago"
+                            name="pago"
+                            onchange="this.form.submit()"
+                            {% if saida.pago %}
+                                checked
+                            {% endif %}
+                        />
+                        <!-- ID -->
+                        <input
+                            type="number"
+                            class="invisible"
+                            value="{{ saida.id }}"
+                            name="id"
+                        >
+                    </form>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><!-- FIM TABELA DE SAIDA -->
+
+{% endblock %}

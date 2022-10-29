@@ -1,0 +1,45 @@
+{% extends 'layouts/base.html' %}
+
+{% block conteudo %}
+    <form method="post">
+        {% csrf_token %}
+        <!-- TITULO -->
+        <label for="titulo">Titulo</label>
+        <input 
+            type="text"
+            class="form-control"
+            placeholder="Titulo"
+            value="{{ entrada.titulo }}"
+            name="titulo"
+            required
+        />
+        <!-- VALOR -->
+        <label for="valor">Valor</label>
+        <input
+            type="number"
+            class="form-control"
+            placeholder="Valor"
+            value="{{ entrada.valor }}"
+            name="valor"
+            required
+        />
+        <!-- PERIODO -->
+        <label for="periodo">Período</label>
+        <input
+            type="month"
+            class="form-control"
+            value="{{ entrada.periodo }}"
+            name="periodo"
+            required
+        />
+        
+            
+        <hr>
+        {% if entrada %}
+            <a class="btn btn-danger" href="{% url 'remover_entrada' entrada.id %}">
+                Remover
+            </a>
+        {% endif %}
+        <button class="btn btn-primary" type="submit" name="salvar">Salvar</button>
+    </form>    
+{% endblock %}
