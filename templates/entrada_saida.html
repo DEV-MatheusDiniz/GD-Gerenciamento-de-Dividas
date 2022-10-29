@@ -54,6 +54,7 @@
             <tr>
                 <th scope="col">Titulo</th>
                 <th scope="col">Valor</th>
+                <th scope="col">Recebido</th>
             </tr>
         </thead>
         <tbody>
@@ -66,6 +67,29 @@
                 </th>
                 <th>
                     R$ {{ entrada.valor }}
+                </th>
+                <th>
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- RECEBIDO -->
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="recebido"
+                            name="recebido"
+                            onchange="this.form.submit()"
+                            {% if entrada.recebido %}
+                                checked
+                            {% endif %}
+                        />
+                        <!-- ID -->
+                        <input
+                            type="number"
+                            class="invisible"
+                            value="{{ entrada.id }}"
+                            name="id"
+                        >
+                    </form>
                 </th>
             </tr>
             {% endfor %}
@@ -83,6 +107,7 @@
             <tr>
                 <th scope="col">Titulo</th>
                 <th scope="col">Valor</th>
+                <th scope="col">Parcela</th>
                 <th scope="col">Pago</th>
             </tr>
         </thead>
@@ -95,7 +120,10 @@
                     </a>
                 </th>
                 <th>
-                    R$ {{ saida.valor_parcela }}/{{ saida.parcela }}-{{ saida.qtd_parcela }}
+                    R$ {{ saida.valor_parcela }}
+                </th>
+                <th>
+                    {{ saida.parcela }}-{{ saida.qtd_parcela }}
                 </th>
                 <th>
                     <form method="post">
