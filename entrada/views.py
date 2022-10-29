@@ -20,23 +20,36 @@ def home(request):
 
 
     if request.method == 'POST':
-        # CAPTURAR DATA E PAGO
+        # CAPTURAR PERIODO 
         periodo = request.POST.get('periodo')
-        id = request.POST.get('id')
+        #  CAPTURAR PAGO
+        id_saida = request.POST.get('id_saida')
         pago = bool(request.POST.get('pago'))
+        # CAPTURAR RECEBIDO
+        id_entrada = request.POST.get('id_entrada')
+        recebido = bool(request.POST.get('recebido'))
 
         if periodo:
             # SELECT
             entradas = Entrada.objects.filter(periodo=periodo)
             saidas = Saida.objects.filter(periodo=periodo)
             dashboard = Dashboard.objects.filter(periodo=periodo)
-        else:
+        
+        if recebido==True or recebido==False:
+            Entrada.objects.filter(
+                id=id_entrada
+            ).update(
+                recebido=recebido
+            )
+
+        if pago==True or pago==False:
             Saida.objects.filter(
-                id=id
+                id=id_saida
             ).update(
                 pago=pago
             )
-            
+        
+        return render(request, 'entrada_saida.html', {'mostra_filtro':True, 'entradas':entradas, 'saidas':saidas, 'periodo':periodo, 'dashboard': dashboard})
     return render(request, 'entrada_saida.html', {'mostra_filtro':True, 'entradas':entradas, 'saidas':saidas, 'periodo':periodo, 'dashboard': dashboard})
 
 
